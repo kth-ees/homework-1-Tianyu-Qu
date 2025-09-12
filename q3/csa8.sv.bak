@@ -1,17 +1,21 @@
-module csa_8 (
-  input logic [7:0] a, b,
-  output logic [7:0] sum,
-  output logic carry
+// ================================================
+// 8-bit Carry Select Adder using 4-bit adders (fixed)
+// ================================================
+module CSA_8 (
+    input  logic [7:0] A,
+    input  logic [7:0] B,
+    output logic [7:0] sum,
+    output logic       carry
 );
     // -------- low 4 bits --------
     logic [3:0] sum_lo;
     logic       c4;
-    adder_4 add_lo (.A(a[3:0]), .B(b[3:0]), .sum(sum_lo), .carry(c4));
+    adder_4 add_lo (.A(A[3:0]), .B(B[3:0]), .sum(sum_lo), .carry(c4));
 
     // -------- high 4 bits base: A[7:4] + B[7:4] --------
     logic [3:0] s_hi0;
     logic       c8_0;
-    adder_4 add_hi_base (.A(a[7:4]), .B(b[7:4]), .sum(s_hi0), .carry(c8_0));
+    adder_4 add_hi_base (.A(A[7:4]), .B(B[7:4]), .sum(s_hi0), .carry(c8_0));
 
     // -------- high 4 bits with cin=1: (A[7:4]+B[7:4]) + 1 --------
     logic [3:0] s_hi1;
@@ -28,3 +32,14 @@ module csa_8 (
                                  : {c8_0, s_hi0};
     end
 endmodule
+
+// {carry,sum} = A + B
+module adder_4 (
+    input  logic [3:0] A,
+    input  logic [3:0] B,
+    output logic [3:0] sum,
+    output logic       carry
+);
+    assign {carry, sum} = A + B;
+endmodule
+

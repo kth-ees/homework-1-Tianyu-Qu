@@ -4,7 +4,7 @@ module decoder (
 );
 
     always_comb begin
-        one_hot = 16'b0;           
-        one_hot[binary] = 1'b1;    
+        one_hot = 16'b0;           // ??? 0
+        one_hot[binary] = 1'b1;    // binary ?????? 1
     end
 endmodule
